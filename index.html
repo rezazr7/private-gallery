@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>گالری خصوصی</title>
+  <title>سوپرایز</title>
   <style>
     body {
       margin: 0;
@@ -76,7 +76,7 @@
 <body>
 
   <div class="login-screen" id="login">
-    <h1>ورود به گالری خصوصی</h1>
+    <h1>برو سوپرایز شو</h1>
     <button onclick="checkPassword()">ورود</button>
   </div>
 
@@ -84,13 +84,13 @@
 
   <script>
     function checkPassword() {
-      const pass = prompt("رمز عبور را وارد کنید:");
+      const pass = prompt("سلام قلبم رمز سختت بزن");
       if (pass === "5450400") {
         document.getElementById("login").style.display = "none";
         document.getElementById("gallery").style.display = "grid";
         loadGallery();
       } else {
-        alert("رمز اشتباه است!");
+        alert("اشتباه زدی که کوچولو");
       }
     }
 
