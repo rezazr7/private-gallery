@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>گالری خصوصی</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #fff;
+      font-family: "Tahoma", sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 6px;
+      border: none;
+    }
+    button {
+      background-color: #00ff99;
+      color: #000;
+      cursor: pointer;
+    }
+    #gallery {
+      display: none;
+      margin-top: 30px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 0 15px #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔐 گالری خصوصی</h1>
+  <p>لطفاً رمز عبور را وارد کنید:</p>
+  <input type="password" id="password" placeholder="رمز عبور">
+  <button onclick="checkPassword()">ورود</button>
+
+  <div id="gallery">
+    <h2>📸 عکس شما:</h2>
+    <img src="1675609180538.jpg" alt="Private Photo">
+  </div>
+
+  <script>
+    function checkPassword() {
+      const input = document.getElementById("password").value;
+      if (input === "538831") {
+        document.getElementById("gallery").style.display = "block";
+      } else {
+        alert("رمز اشتباه است!");
+      }
+    }
+  </script>
+</body>
+</html>
