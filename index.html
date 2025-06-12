@@ -2,59 +2,84 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>گالری خصوصی</title>
+  <title>گالری داینامیک خصوصی</title>
   <style>
     body {
-      background-color: #121212;
+      background: #121212;
       color: #fff;
-      font-family: "Tahoma", sans-serif;
+      font-family: sans-serif;
+      padding: 30px;
       text-align: center;
-      padding: 40px;
     }
     input, button {
       padding: 10px;
       font-size: 16px;
-      margin: 10px;
       border-radius: 6px;
       border: none;
     }
     button {
       background-color: #00ff99;
       color: #000;
+      margin: 10px;
       cursor: pointer;
     }
-    #gallery {
-      display: none;
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
       margin-top: 30px;
     }
-    img {
-      max-width: 100%;
-      height: auto;
-      border-radius: 12px;
-      box-shadow: 0 0 15px #333;
+    img, video {
+      max-width: 280px;
+      border-radius: 10px;
+      box-shadow: 0 0 12px #000;
     }
+    #gallery { display: none; }
   </style>
 </head>
 <body>
   <h1>🔐 گالری خصوصی</h1>
-  <p>لطفاً رمز عبور را وارد کنید:</p>
-  <input type="password" id="password" placeholder="رمز عبور">
+  <p>رمز عبور را وارد کنید:</p>
+  <input type="password" id="password" placeholder="مثلاً: kingreza00">
   <button onclick="checkPassword()">ورود</button>
 
   <div id="gallery">
-    <h2>📸 عکس شما:</h2>
-    <img src="1675609180538.jpg" alt="Private Photo">
+    <h2>📷 عکس و ویدئوها</h2>
+    <div class="grid" id="mediaGrid"></div>
   </div>
 
   <script>
+    const username = "rezazr7";
+    const repo = "private-gallery";
+    const token = ""; // در صورت نیاز به گیت‌هات خصوصی
+
     function checkPassword() {
       const input = document.getElementById("password").value;
-      if (input === "538831") {
+      if (input === "kingreza00") {
         document.getElementById("gallery").style.display = "block";
+        loadFiles();
       } else {
         alert("رمز اشتباه است!");
       }
+    }
+
+    async function loadFiles() {
+      const res = await fetch(https://api.github.com/repos/${username}/${repo}/contents);
+      const files = await res.json();
+      const grid = document.getElementById("mediaGrid");
+      files.forEach(file => {
+        if (file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+          const img = document.createElement("img");
+          img.src = file.download_url;
+          grid.appendChild(img);
+        } else if (file.name.match(/\.(mp4|mov|webm)$/i)) {
+          const vid = document.createElement("video");
+          vid.src = file.download_url;
+          vid.controls = true;
+          grid.appendChild(vid);
+        }
+      });
     }
   </script>
 </body>
