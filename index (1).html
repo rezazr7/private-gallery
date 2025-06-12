@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>گالری خصوصی</title>
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" />
   <style>
     body {
       margin: 0;
       font-family: "Vazirmatn", sans-serif;
       background-color: #000;
       color: #fff;
-      overflow: hidden;
     }
     .login-screen {
-      position: absolute;
-      width: 100%;
-      height: 100vh;
+      position: fixed;
+      inset: 0;
       background: linear-gradient(135deg, #1f1c2c, #928dab);
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      flex-direction: column;
       animation: fadeIn 2s ease;
     }
     .login-screen h1 {
@@ -39,14 +38,11 @@
       box-shadow: 0 0 20px #00c6ff;
       transition: 0.3s;
     }
-
     .login-screen button:hover {
       background: #0072ff;
       color: white;
     }
-
     #gallery {
-      display: none;
       padding: 20px;
       margin-top: 80px;
       display: grid;
@@ -61,7 +57,6 @@
       border-radius: 14px;
       box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
     }
-
     @keyframes fadeIn {
       from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
@@ -74,22 +69,25 @@
     <h1>ورود به گالری خصوصی</h1>
     <button onclick="checkPassword()">ورود</button>
   </div>
-  <div id="gallery"></div>
+
+  <div id="gallery" style="display:none;"></div>
+
   <script>
     function checkPassword() {
       const pass = prompt("رمز عبور را وارد کنید:");
       if (pass === "5450400") {
         document.getElementById("login").style.display = "none";
-        document.getElementById("gallery").style.display = "grid";
+        const gallery = document.getElementById("gallery");
+        gallery.style.display = "grid";
         loadGallery();
       } else {
         alert("رمز اشتباه است!");
       }
     }
+
     async function loadGallery() {
       const repo = "rezazr7/private-gallery";
-      const branch = "main";
-      const apiURL = `https://api.github.com/repos/${repo}/contents/`;
+      const apiURL = https://api.github.com/repos/${repo}/contents/;
 
       try {
         const res = await fetch(apiURL);
@@ -98,15 +96,20 @@
         const gallery = document.getElementById("gallery");
         gallery.innerHTML = "";
 
-        files.forEach(file => {
+        // محدود کردن تعداد نمایش به 20 فایل
+        const limitedFiles = files.filter(file => file.name.match(/\.(jpg|jpeg|png|gif|mp4|webm)$/i)).slice(0, 20);
+
+        limitedFiles.forEach(file => {
           if (file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
             const img = document.createElement("img");
             img.src = file.download_url;
+            img.loading = "lazy";  // lazy loading تصاویر
             gallery.appendChild(img);
           } else if (file.name.match(/\.(mp4|webm)$/i)) {
             const vid = document.createElement("video");
             vid.src = file.download_url;
             vid.controls = true;
+            vid.loading = "lazy"; // ولی بارگذاری تنبل برای ویدیو در HTML5 به صورت مستقیم وجود نداره ولی اینجا گذاشتم به هر حال
             gallery.appendChild(vid);
           }
         });
