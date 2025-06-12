@@ -302,3 +302,147 @@
 
 </body>
 </html>
+
+ᴿᴱᶻᴬ.ᴹ4, [6/12/2025 11:02 PM]
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سوپرایز</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Vazirmatn", sans-serif;
+      background-color: #000;
+      color: #fff;
+      overflow-y: auto;
+    }
+
+    .login-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: linear-gradient(135deg, #1f1c2c, #928dab);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10;
+      animation: fadeIn 2s ease;
+    }
+
+    .login-screen h1 {
+      font-size: 2.5em;
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px #fff;
+    }
+
+    .login-screen button {
+      padding: 12px 28px;
+      font-size: 18px;
+      background: #00c6ff;
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 20px #00c6ff;
+      transition: 0.3s;
+    }
+
+    .login-screen button:hover {
+      background: #0072ff;
+      color: white;
+    }
+
+    #gallery {
+      display: none;
+      padding: 20px;
+      margin-top: 80px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      background-color: #000;
+    }
+
+    img, video {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 14px;
+      box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+    }
+
+    #loader {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      font-size: 20px;
+      color: cyan;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-screen" id="login">
+    <h1>برو سوپرایز شو</h1>
+    <button id="enterButton">ورود</button>
+  </div>
+
+  <div id="loader">در حال بارگذاری عکس‌ها...</div>
+  <div id="gallery"></div>
+
+  <script>
+    document.getElementById("enterButton").addEventListener("click", checkPassword);
+
+    function checkPassword() {
+      const pass = prompt("سلام قلبم رمز سختت بزن");
+      if (pass === "5450400") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("loader").style.display = "block";
+        loadGallery();
+      } else {
+        alert("اشتباه زدی که کوچولو");
+      }
+    }
+
+    async function loadGallery() {
+      const repo = "rezazr7/private-gallery";
+      const apiURL = https://api.github.com/repos/${repo}/contents/;
+
+      try {
+        const res = await fetch(apiURL);
+        const files = await res.json();
+
+        const gallery = document.getElementById("gallery");
+        gallery.innerHTML = "";
+        files.forEach(file => {
+          if (file.name.match(/\.(jpg|jpeg|png|gif)$/i)) {
+            const img = document.createElement("img");
+            img.src = file.download_url;
+            gallery.appendChild(img);
+          } else if (file.name.match(/\.(mp4|webm)$/i)) {
+            const vid = document.createElement("video");
+            vid.src = file.download_url;
+            vid.controls = true;
+            gallery.appendChild(vid);
+          }
+        });
+
+        document.getElementById("loader").style.display = "none";
+        gallery.style.display = "grid";
+      } catch (err) {
+        alert("خطا در بارگذاری فایل‌ها");
+        console.error(err);
+      }
+    }
+  </script>
+</body>
+</html>
